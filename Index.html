@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persona Profiler - SMA Genesis Medicare</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary: #0284c7; /* Blue Genesis */
+            --secondary: #0d9488; /* Teal Medicare */
+            --bg: #f0f9ff;
+            --text: #334155;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--white);
+            max-width: 500px;
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .header p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            margin-top: 15px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(2, 132, 199, 0.4);
+        }
+
+        .option-btn {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            color: var(--text);
+            padding: 15px;
+            border-radius: 12px;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option-btn:hover {
+            border-color: var(--secondary);
+            background: #f0fdfa;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--secondary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Results */
+        .result-title {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .result-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .result-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #475569;
+        }
+        
+        .major-highlight {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+            padding: 15px;
+            background: #e0f2fe;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Home Screen -->
+    <div id="home-screen" class="screen active">
+        <div class="header">
+            <h1>Academic Persona Profiler</h1>
+            <p>SMA Genesis Medicare</p>
+        </div>
+        <img src="https://cdn-icons-png.flaticon.com/512/4236/4236902.png" alt="Brain Icon" style="width: 120px; margin: 20px 0;">
+        <p style="font-size: 15px; margin-bottom: 20px;">Temukan potensi tersembunyimu! Jawab 7 pertanyaan singkat ini untuk mengetahui gaya belajarmu dan jurusan yang paling pas buatmu di SMA nanti.</p>
+        <button class="btn" onclick="startQuiz()">Mulai Tes Sekarang</button>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quiz-screen" class="screen">
+        <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+        </div>
+        <p id="question-text" style="font-size: 16px; font-weight: 600; margin-bottom: 20px; min-height: 50px;"></p>
+        <div id="options-container">
+            <!-- Buttons will be generated here -->
+        </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="result-screen" class="screen">
+        <h2 class="result-title" id="persona-title">The Innovator</h2>
+        <div class="result-badge" id="learning-style">Gaya Belajar: Visual</div>
+        <p class="result-desc" id="persona-desc">Kamu memiliki kecerdasan logika dan visual yang kuat. Kamu suka menganalisis masalah dan menemukan solusi terstruktur.</p>
+        
+        <div class="major-highlight">
+            Rekomendasi Jurusan:<br>
+            <span id="major-result" style="font-size: 28px;">IPA</span>
+        </div>
+        
+        <button class="btn" style="margin-top: 25px;" onclick="location.reload()">Ulangi Tes</button>
+    </div>
+</div>
+
+<script>
+    // Data Pertanyaan
+    // Pembobotan: ipa (Sains/Logika), ips (Sosial/Bahasa), v (Visual), a (Auditori), k (Kinestetik)
+    const questions = [
+        {
+            question: "Kalau lagi belajar materi baru, kamu paling gampang paham kalau...",
+            options: [
+                { text: "Lihat gambar, grafik, atau video animasi", scores: { ipa: 1, ips: 0, v: 2, a: 0, k: 0 } },
+                { text: "Dengerin guru cerita atau diskusi bareng temen", scores: { ipa: 0, ips: 1, v: 0, a: 2, k: 0 } },
+                { text: "Langsung praktek atau nyoba sendiri", scores: { ipa: 1, ips: 0, v: 0, a: 0, k: 2 } }
+            ]
+        },
+        {
+            question: "Saat kerja kelompok, peran apa yang biasanya kamu ambil?",
+            options: [
+                { text: "Menganalisis data, cari fakta, atau ngatur strategi", scores: { ipa: 2, ips: 0, v: 1, a: 0, k: 0 } },
+                { text: "Jadi juru bicara, bikin presentasi, atau mimpin diskusi", scores: { ipa: 0, ips: 2, v: 0, a: 1, k: 0 } },
+                { text: "Bikin properti, nulis langsung, atau bagian teknis lapangan", scores: { ipa: 1, ips: 1, v: 0, a: 0, k: 2 } }
+            ]
+        },
+        {
+            question: "Waktu lagi waktu luang (weekend), kamu lebih suka ngapain?",
+            options: [
+                { text: "Nonton film Sci-Fi, main game strategi/teka-teki", scores: { ipa: 2, ips: 0, v: 1, a: 0, k: 0 } },
+                { text: "Nongkrong sama teman, baca novel, atau dengerin podcast", scores: { ipa: 0, ips: 2, v: 0, a: 2, k: 0 } },
+                { text: "Olahraga, bongkar pasang barang, atau jalan-jalan alam", scores: { ipa: 1, ips: 0, v: 0, a: 0, k: 2 } }
+            ]
+        },
+        {
+            question: "Bagaimana cara kamu menghadapi masalah yang rumit?",
+            options: [
+                { text: "Cari tahu penyebabnya secara logis satu per satu", scores: { ipa: 2, ips: 0, v: 1, a: 0, k: 0 } },
+                { text: "Curhat ke teman dan cari sudut pandang lain", scores: { ipa: 0, ips: 2, v: 0, a: 1, k: 0 } },
+                { text: "Menjauh sebentar, cari udara segar (jalan) biar tenang", scores: { ipa: 0, ips: 1, v: 0, a: 0, k: 2 } }
+            ]
+        },
+        {
+            question: "Pelajaran apa yang membuatmu merasa paling tertantang dan antusias?",
+            options: [
+                { text: "Matematika atau IPA (Sains)", scores: { ipa: 3, ips: 0, v: 1, a: 0, k: 1 } },
+                { text: "Bahasa, IPS, atau Sejarah", scores: { ipa: 0, ips: 3, v: 0, a: 1, k: 0 } },
+                { text: "Prakarya, Olahraga, atau Seni", scores: { ipa: 1, ips: 1, v: 0, a: 0, k: 2 } }
+            ]
+        },
+        {
+            question: "Kalau baca buku cerita atau buku pelajaran, kebiasaanmu...",
+            options: [
+                { text: "Fokus ke ilustrasi dan membayangkan visualisasinya", scores: { ipa: 0, ips: 1, v: 2, a: 0, k: 0 } },
+                { text: "Kadang membaca dengan suara pelan/bergumam", scores: { ipa: 0, ips: 1, v: 0, a: 2, k: 0 } },
+                { text: "Sambil pegang pulpen, mondar-mandir, atau ubah posisi duduk", scores: { ipa: 1, ips: 0, v: 0, a: 0, k: 2 } }
+            ]
+        },
+        {
+            question: "Profesi impianmu lebih condong ke arah mana?",
+            options: [
+                { text: "Dokter, Ilmuwan, Programmer, Arsitek", scores: { ipa: 3, ips: 0, v: 1, a: 0, k: 0 } },
+                { text: "Pengacara, Penulis, Psikolog, Diplomat", scores: { ipa: 0, ips: 3, v: 0, a: 1, k: 0 } },
+                { text: "Atlet, Pengusaha, Ahli Gizi, atau Bekerja di Lapangan", scores: { ipa: 1, ips: 1, v: 0, a: 0, k: 2 } }
+            ]
+        }
+    ];
+
+    let currentQuestion = 0;
+    let scores = { ipa: 0, ips: 0, v: 0, a: 0, k: 0 };
+
+    const homeScreen = document.getElementById('home-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const resultScreen = document.getElementById('result-screen');
+    const questionText = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const progressFill = document.getElementById('progress-fill');
+
+    function startQuiz() {
+        homeScreen.classList.remove('active');
+        quizScreen.classList.add('active');
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const q = questions[currentQuestion];
+        questionText.textContent = `${currentQuestion + 1}. ${q.question}`;
+        optionsContainer.innerHTML = '';
+
+        // Update Progress
+        const progress = ((currentQuestion) / questions.length) * 100;
+        progressFill.style.width = `${progress}%`;
+
+        q.options.forEach((opt) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.textContent = opt.text;
+            btn.onclick = () => selectAnswer(opt.scores);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function selectAnswer(optScores) {
+        // Tambahkan skor
+        scores.ipa += optScores.ipa;
+        scores.ips += optScores.ips;
+        scores.v += optScores.v;
+        scores.a += optScores.a;
+        scores.k += optScores.k;
+
+        currentQuestion++;
+
+        if (currentQuestion < questions.length) {
+            loadQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        quizScreen.classList.remove('active');
+        resultScreen.classList.add('active');
+        
+        // Progress bar penuh
+        progressFill.style.width = '100%';
+
+        // Tentukan Jurusan
+        let major = scores.ipa >= scores.ips ? "IPA" : "IPS";
+
+        // Tentukan Gaya Belajar (Tertinggi antara V, A, K)
+        let learningStyle = "Visual";
+        let maxStyleScore = scores.v;
+        
+        if (scores.a > maxStyleScore) {
+            learningStyle = "Auditori";
+            maxStyleScore = scores.a;
+        }
+        if (scores.k > maxStyleScore) {
+            learningStyle = "Kinestetik";
+        }
+
+        // Tentukan Persona & Deskripsi
+        let persona = "";
+        let desc = "";
+
+        if (major === "IPA") {
+            if (learningStyle === "Visual") {
+                persona = "The Architect (Sang Perancang)";
+                desc = "Kamu tajam dalam observasi dan jago analisis visual. Kecerdasan logikamu tinggi, sangat cocok di IPA untuk jadi calon Insinyur atau Tenaga Medis hebat di Genesis Medicare!";
+            } else if (learningStyle === "Kinestetik") {
+                persona = "The Experimenter (Sang Penjelajah)";
+                desc = "Kamu tidak suka teori yang membosankan, kamu butuh praktek nyata! IPA adalah tempat yang pas buatmu karena kamu akan banyak bereksperimen di laboratorium.";
+            } else {
+                persona = "The Analyst (Sang Analis)";
+                desc = "Pendengar yang baik dan pemikir yang kritis. Kamu bisa memahami konsep sains kompleks dengan cepat. Jurusan IPA sangat sesuai dengan pola pikir logismu.";
+            }
+        } else {
+            if (learningStyle === "Auditori") {
+                persona = "The Diplomat (Sang Orator)";
+                desc = "Kecerdasan bahasamu luar biasa! Kamu mudah menyerap informasi dari diskusi. Jurusan IPS menantimu untuk mengasah kemampuan komunikasi, cocok jadi pemimpin masa depan.";
+            } else if (learningStyle === "Visual") {
+                persona = "The Visionary (Sang Pemikir)";
+                desc = "Kamu bisa melihat gambaran besar dari sebuah masalah sosial. Dengan gaya belajarmu, menghafal sejarah atau memahami geografi di IPS akan jadi sangat menyenangkan.";
+            } else {
+                persona = "The Activator (Sang Penggerak)";
+                desc = "Kamu aktif dan sangat peka terhadap lingkungan sekitar. Di IPS, kamu akan cocok turun langsung ke lapangan menyelesaikan isu-isu sosial. Kamu adalah penggerak perubahan!";
+            }
+        }
+
+        // Tampilkan ke UI
+        document.getElementById('persona-title').textContent = persona;
+        document.getElementById('learning-style').textContent = `Gaya Belajar: ${learningStyle}`;
+        document.getElementById('persona-desc').textContent = desc;
+        document.getElementById('major-result').textContent = major;
+    }
+</script>
+
+</body>
+</html>
