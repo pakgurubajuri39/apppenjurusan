@@ -198,10 +198,9 @@
             background: linear-gradient(135deg, #0f172a, #1e293b);
             color: white;
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 15px 15px 0 0;
             margin-top: 25px;
             text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
         .marketing-box h3 {
             color: var(--accent);
@@ -216,6 +215,41 @@
         }
         .marketing-box strong {
             color: white;
+        }
+
+        /* Contact Section */
+        .contact-box {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-top: none;
+            padding: 20px 15px;
+            border-radius: 0 0 15px 15px;
+            text-align: left;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        .contact-box h4 {
+            color: var(--primary);
+            font-size: 14px;
+            margin-bottom: 12px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13px;
+            color: #334155;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+        .contact-item .icon {
+            font-size: 14px;
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -268,16 +302,40 @@
         <div class="marketing-box">
             <h3>✨ Wujudkan Potensimu di Sini! ✨</h3>
             <p>Apapun gaya belajarmu, <strong>SMA Genesis Medicare</strong> siap mengubah potensimu menjadi prestasi nyata. Dengan fasilitas modern, lingkungan suportif, dan fokus pada pendidikan kesehatan & sains masa depan, kami bukan sekadar sekolah, tapi <em>partner</em> kesuksesanmu.</p>
-            <p style="font-size: 14px; font-weight: 600; color: var(--accent);">Pendaftaran Siswa Baru Telah Dibuka!</p>
-            <p>Jangan sampai kehabisan kuota. Jadilah bagian dari Generasi Genesis sekarang juga!</p>
+            <p style="font-size: 14px; font-weight: 600; color: var(--accent); margin-bottom: 0;">Pendaftaran Siswa Baru Telah Dibuka!</p>
+        </div>
+
+        <!-- Contact Info Box (NEW) -->
+        <div class="contact-box">
+            <h4>Hubungi Kami</h4>
+            <div class="contact-item">
+                <span class="icon">📍</span>
+                <span>Jl. Gas Alam No. 20 Kelurahan Curug Kec. Cimanggis Kota Depok, Jawa Barat 16453</span>
+            </div>
+            <div class="contact-item">
+                <span class="icon">📞</span>
+                <span>021-87740002</span>
+            </div>
+            <div class="contact-item">
+                <span class="icon">💬</span>
+                <span>0818-0403-1984 (WhatsApp)</span>
+            </div>
+            <div class="contact-item">
+                <span class="icon">📧</span>
+                <span>genesis.medicare.edu@gmail.com</span>
+            </div>
+            <div class="contact-item">
+                <span class="icon">📸</span>
+                <span>@genesis_medicare (Instagram)</span>
+            </div>
         </div>
         
-        <button class="btn" style="margin-top: 20px; background: #f8fafc; color: var(--primary); border: 2px solid var(--primary);" onclick="location.reload()">Ikut Tes Ulang</button>
+        <button class="btn" style="margin-top: 25px; background: #f8fafc; color: var(--primary); border: 2px solid var(--primary);" onclick="location.reload()">Ikut Tes Ulang</button>
     </div>
 </div>
 
 <script>
-    // Data Pertanyaan (Sama dengan sebelumnya)
+    // Data Pertanyaan 
     const questions = [
         {
             question: "Kalau lagi belajar materi baru, kamu paling gampang paham kalau...",
